@@ -34,7 +34,7 @@ describe Redis::Value do
     @value.options[:marshal] = false
     v = {:json => 'data'}
     @value.value = v
-    @value.should == v.to_s
+    @value.should == v
 
     @value.options[:marshal] = true
     @value.value = [[1,2], {:t3 => 4}]
@@ -375,7 +375,7 @@ describe Redis::HashKey do
     @hash.options[:marshal] = false
     v = {:json => 'data'}
     @hash['abc'] = v
-    @hash['abc'].should == v.to_s
+    @hash['abc'].should == v
 
     @hash.options[:marshal] = true
     @hash['abc'] = [[1,2], {:t3 => 4}]
