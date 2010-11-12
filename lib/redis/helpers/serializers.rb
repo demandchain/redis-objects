@@ -28,6 +28,8 @@ module RedisObjects
         end
       end
       def from_redis(value, opts={})
+        return value unless value.is_a? String
+
         opts = DEFAULT_OPTS.merge opts
 
         Yajl::Parser.parse value, :symbolize_keys => opts[:symbolize_keys]

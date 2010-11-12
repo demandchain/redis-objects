@@ -186,6 +186,18 @@ describe Redis::List do
       @list.get.should == ['a','c','f','j','a']
     end
 
+    it "should handle json serialization" do
+      @list.options[:serialize] = :json
+      v1 = {:json => 'data'}
+      v2 = {:json2 => 'data2'}
+      @list << v1
+      @list << v2
+      @list.first.should == v1
+      @list.last.should == v2
+      @list.values.size.should == 2
+      @list.clear
+    end
+
     it "should handle lists of complex data types" do
       @list.options[:marshal] = true
       v1 = {:json => 'data'}
@@ -364,7 +376,14 @@ describe Redis::HashKey do
     @hash  = Redis::HashKey.new('test_hash')
     @hash.clear
   end
-  
+
+  it "should handle json serialized values" do
+    @hash.options[:serialize] = :json
+    @hash['abc'].should == nil
+    @hash['abc'] = {:json => 'data'}
+    @hash['abc'].should == {:json => 'data'}
+  end
+
   it "should handle complex marshaled values" do
     @hash.options[:marshal] = true
     @hash['abc'].should == nil
